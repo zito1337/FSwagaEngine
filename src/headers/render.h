@@ -5,9 +5,9 @@ extern GLuint vbo;
 extern GLuint vao;
 extern GLuint shader_program;
 
-extern int renderinit();
+extern int render_init();
 
 //I DONT know why is shader_program here I just added it for compatibility.
-extern int rendertick(GLuint vao, GLuint vbo, GLuint shader_program);
+extern int render_tick(GLuint vao, GLuint vbo, GLuint shader_program);
 
 #endif

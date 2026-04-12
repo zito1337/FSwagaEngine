@@ -9,8 +9,8 @@
 #include "src/headers/window.h"
 #include "src/headers/render.h"
 
-int WWIDTH = 800;
-int WHEIGHT = 600;
+int window_width = 800;
+int window_height = 600;
 
 int main()
 {
@@ -26,7 +26,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     //creating window
-    GLFWwindow* window = glfwCreateWindow(WWIDTH, WHEIGHT, "FSwagaEngine", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(window_width, window_height, "FSwagaEngine", NULL, NULL);
     if (window == NULL)
     {
         printf("Failed to create GLFW window");

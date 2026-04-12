@@ -13,12 +13,12 @@ int init(GLFWwindow* window)
 {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    renderinit();
+    render_init();
 
     while(!glfwWindowShouldClose(window)){
-        processInput(window);
+        process_input(window);
         
-        rendertick(vao, vbo, shader_program);
+        render_tick(vao, vbo, shader_program);
 
         glfwSwapBuffers(window);
         glfwPollEvents();    
@@ -27,12 +27,22 @@ int init(GLFWwindow* window)
     glfwTerminate();
     return 0;
 }
-void processInput(GLFWwindow *window)
+
+void process_input(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 }
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    glfwGetFramebufferSize(window, &width, &height);
+    if (width <= 0 || height <= 0) return;
+
     glViewport(0, 0, width, height);
+
+    // force a redraw so the window updates during resize
+    render_tick(vao, vbo, shader_program);
+    
+    glfwSwapBuffers(window);
 }

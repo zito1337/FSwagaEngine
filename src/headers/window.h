@@ -3,7 +3,7 @@
 
 int init(GLFWwindow* window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);  
-void processInput(GLFWwindow *window);
+void process_input(GLFWwindow *window);
 
 #endif
 

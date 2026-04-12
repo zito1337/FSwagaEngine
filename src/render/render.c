@@ -31,7 +31,7 @@ GLuint vbo = 0;
 GLuint vao = 0;
 GLuint shader_program;
 
-int renderinit(){
+int render_init(){
     //define of vbo & vao
 
     glGenBuffers( 1, &vbo );
@@ -65,7 +65,7 @@ int renderinit(){
     return 0;
 }
 
-int rendertick(GLuint vao, GLuint vbo, GLuint shader_program){
+int render_tick(GLuint vao, GLuint vbo, GLuint shader_program){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.329f, 0.745f, 0.941f, 1.0f);
         
