@@ -47,6 +47,11 @@ static char* read_file(const char* path)
 //more soon
 //...
 
+void setFloat(Shader* s, const char* name, float value)
+{
+    glUniform1f(glGetUniformLocation(s->id, name), (int)value);
+}
+
 static void print_shader_log(GLuint shader)
 {
     GLint len = 0;

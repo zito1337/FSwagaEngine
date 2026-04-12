@@ -9,8 +9,6 @@
 #include "headers/window.h"
 #include "headers/render.h"
 
-bool isShader2 = true;
-
 int init(GLFWwindow* window)
 {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -20,7 +18,7 @@ int init(GLFWwindow* window)
     while(!glfwWindowShouldClose(window)){
         process_input(window);
         
-        render_tick(vao, vbo, shader_program, isShader2);
+        render_tick(vao, vbo, shader_program);
 
         glfwSwapBuffers(window);
         glfwPollEvents();    
@@ -39,11 +37,6 @@ void process_input(GLFWwindow *window)
 
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    // prevent shader changing every frame while held
-    if (e_state == GLFW_PRESS && e_prev == GLFW_RELEASE) {
-        isShader2 = !isShader2;
-    }
     e_prev = e_state;
 }
 
@@ -55,7 +48,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 
     // force a redraw so the window updates during resize
-    render_tick(vao, vbo, shader_program, isShader2);
+    render_tick(vao, vbo, shader_program);
     
     glfwSwapBuffers(window);
 }

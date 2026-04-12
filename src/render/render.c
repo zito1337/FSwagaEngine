@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <glad/glad.h> //INCLUDE BEFORE GLFW3
 #include <GLFW/glfw3.h>
-
+#include <math.h>
 //fw src
 #include "../headers/windowparams.h"
 #include "../headers/window.h"
@@ -24,7 +24,6 @@ GLuint vbo = 0;
 GLuint vao = 0;
 GLuint ebo = 0;
 Shader shader;
-Shader shader2;
 GLuint shader_program;
 
 int render_init(){
@@ -53,8 +52,7 @@ int render_init(){
         fprintf(stderr, "err: failed to create shader program\n");
         return -1;
     }
-    shader2 = shader_from_files("resources/shaders/testshader.vert", "resources/shaders/testshader.frag");
-    
+
     shader_program = glCreateProgram();
     
     shader_program = shader.id;
@@ -62,17 +60,15 @@ int render_init(){
     return 0;
 }
 
-int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, bool isShader2){
+int render_tick(GLuint vao, GLuint vbo, GLuint shader_program){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.329f, 0.745f, 0.941f, 1.0f);
     
-    
-    if(isShader2 == true){
-        shader_program = shader2.id;
-    }
-    else{
-        shader_program = shader.id;
-    }
+    float timeValue = glfwGetTime();
+    float greenValue = sinf(timeValue) / 2.0f + 0.5f;
+    int vertexColorLocation = glGetUniformLocation(shader_program, "ourColor");
+    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
     glUseProgram(shader_program);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
