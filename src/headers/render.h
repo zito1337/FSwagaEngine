@@ -3,6 +3,7 @@
 
 extern GLuint vbo;
 extern GLuint vao;
+extern GLuint ebo;
 extern GLuint shader_program;
 
 extern int render_init();
