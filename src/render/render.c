@@ -9,10 +9,17 @@
 #include "../headers/window.h"
 
 float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
+    // first triangle
+     0.5f,  0.5f, 0.0f,  // top right
+     0.5f, -0.5f, 0.0f,  // bottom right
+    -0.5f,  0.5f, 0.0f,  // top left 
+    // second triangle
+     0.5f, -0.5f, 0.0f,  // bottom right
+    -0.5f, -0.5f, 0.0f,  // bottom left
+    -0.5f,  0.5f, 0.0f   // top left
 };
+//TODO: indices and EBO instead of this shitty little vertices array
+
 const char* fragment_shader =
 "#version 410 core\n"
 "out vec4 frag_colour;"
@@ -22,7 +29,7 @@ const char* fragment_shader =
 
 const char* vertex_shader =
 "#version 410 core\n"
-"in vec3 vp;"
+"layout(location = 0) in vec3 vp;"
 "void main() {"
 "  gl_Position = vec4( vp, 1.0 );"
 "}";
@@ -32,15 +39,15 @@ GLuint vao = 0;
 GLuint shader_program;
 
 int render_init(){
-    //define of vbo & vao
-
     glGenBuffers( 1, &vbo );
 
     glGenVertexArrays( 1, &vao );
 
     //bind buffer data
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
-    glBufferData( GL_ARRAY_BUFFER, 9 * sizeof( float ), vertices, GL_STATIC_DRAW );
+    //Q: why did you ( flamka6 ) use 9*sizeof(float) instead of sizeof(vertices)?
+    //I mean, wouldn't it be better if I could render more vertices than 3
+    glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
 
     //bind vertex array and put into buffers
     glBindVertexArray( vao );
@@ -68,10 +75,12 @@ int render_init(){
 int render_tick(GLuint vao, GLuint vbo, GLuint shader_program){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.329f, 0.745f, 0.941f, 1.0f);
-        
+    
     glUseProgram(shader_program);
     glBindVertexArray(vao);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    // maybe a shitcode but I guess I have no choice (sizeof vertices is 72 and I don't know why)
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
+
     return 0;
 }
