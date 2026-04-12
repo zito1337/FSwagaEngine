@@ -7,6 +7,7 @@
 //fw src
 #include "../headers/windowparams.h"
 #include "../headers/window.h"
+#include "../headers/shader.h"
 
 float vertices[] = {
      0.5f,  0.5f, 0.0f,  // top right
@@ -17,26 +18,13 @@ float vertices[] = {
 unsigned int indices[] = {  // note that we start from 0!
     0, 1, 3,   // first triangle
     1, 2, 3    // second triangle
-};  
-//TODO: indices and EBO instead of this shitty little vertices array
-
-const char* fragment_shader =
-"#version 410 core\n"
-"out vec4 frag_colour;"
-"void main() {"
-"  frag_colour = vec4( 0.5, 0.0, 0.5, 1.0 );"
-"}";
-
-const char* vertex_shader =
-"#version 410 core\n"
-"layout(location = 0) in vec3 vp;"
-"void main() {"
-"  gl_Position = vec4( vp, 1.0 );"
-"}";
+};
 
 GLuint vbo = 0;
 GLuint vao = 0;
 GLuint ebo = 0;
+Shader shader;
+Shader shader2;
 GLuint shader_program;
 
 int render_init(){
@@ -47,8 +35,7 @@ int render_init(){
     
     //bind buffer data
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
-    //Q: why did you ( flamka6 ) use 9*sizeof(float) instead of sizeof(vertices)?
-    //I mean, wouldn't it be better if I could render more vertices than 3
+
     glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -60,33 +47,36 @@ int render_init(){
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
     glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, NULL );
 
-    //define vertex & fragment shaders
-    // fragment - color
-    // vertex - coords of vertices & object
-    GLuint vs = glCreateShader( GL_VERTEX_SHADER );
-    glShaderSource( vs, 1, &vertex_shader, NULL );
-    glCompileShader( vs );
-    GLuint fs = glCreateShader( GL_FRAGMENT_SHADER );
-    glShaderSource( fs, 1, &fragment_shader, NULL );
-    glCompileShader( fs );
+
+    shader = shader_from_files("resources/shaders/coreshader.vert", "resources/shaders/coreshader.frag");
+    if (shader.id == 0) {
+        fprintf(stderr, "err: failed to create shader program\n");
+        return -1;
+    }
+    shader2 = shader_from_files("resources/shaders/testshader.vert", "resources/shaders/testshader.frag");
     
     shader_program = glCreateProgram();
-    glAttachShader( shader_program, fs );
-    glAttachShader( shader_program, vs );
-    glLinkProgram( shader_program );
+    
+    shader_program = shader.id;
+
     return 0;
 }
 
-int render_tick(GLuint vao, GLuint vbo, GLuint shader_program){
+int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, bool isShader2){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(0.329f, 0.745f, 0.941f, 1.0f);
     
+    
+    if(isShader2 == true){
+        shader_program = shader2.id;
+    }
+    else{
+        shader_program = shader.id;
+    }
     glUseProgram(shader_program);
-    //glBindVertexArray(vao);
-
-    // // maybe a shitcode but I guess I have no choice (sizeof vertices is 72 and I don't know why)
-    // glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+    //draw elements with indices (finally not vertices!!!!)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     return 0;

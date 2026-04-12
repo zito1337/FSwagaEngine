@@ -10,6 +10,7 @@
         "glad.c",
         "src/window.c",
         "src/render/render.c",
+        "src/shader.c",
         "-o",
         "main.exe",
         "-I",
