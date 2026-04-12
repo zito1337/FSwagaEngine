@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "C:/msys64/ucrt64/bin/gcc.exe",
+      "args": [
+        "main.c",
+        "glad.c",
+        "src/render.c",
+        "-o",
+        "main.exe",
+        "-I",
+        "include",
+        "-Wall",
+        "-lglfw3",
+        "-lopengl32",
+        "-lgdi32"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    }
+  ]
+}
