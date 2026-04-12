@@ -17,11 +17,11 @@ int main()
     //glfw init
     glfwInit();
     
-    //now we're setting glfw 3.3
+    //now we're setting glfw 4.6
     //set major glfw version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     //set minor glfw version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     //set glfw profile to core
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
