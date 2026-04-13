@@ -15,47 +15,60 @@
 #include "../headers/shader.h"
 
 float vertices[] = {
-    // positions           // colors          // texcoords
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-    // FRONT
-    -0.5f, -0.5f,  0.5f,   1.0f,1.0f,1.0f,   0.0f,0.0f,
-     0.5f, -0.5f,  0.5f,   1.0f,1.0f,1.0f,   1.0f,0.0f,
-     0.5f,  0.5f,  0.5f,   1.0f,1.0f,1.0f,   1.0f,1.0f,
-    -0.5f,  0.5f,  0.5f,   1.0f,1.0f,1.0f,   0.0f,1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-    // BACK
-    -0.5f, -0.5f, -0.5f,   1.0f,1.0f,1.0f,   1.0f,0.0f,
-     0.5f, -0.5f, -0.5f,   1.0f,1.0f,1.0f,   0.0f,0.0f,
-     0.5f,  0.5f, -0.5f,   1.0f,1.0f,1.0f,   0.0f,1.0f,
-    -0.5f,  0.5f, -0.5f,   1.0f,1.0f,1.0f,   1.0f,1.0f,
-};
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-unsigned int indices[] = {
-    // front
-    0, 1, 2,
-    2, 3, 0,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-    // right
-    1, 5, 6,
-    6, 2, 1,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
-    // back
-    5, 4, 7,
-    7, 6, 5,
-
-    // left
-    4, 0, 3,
-    3, 7, 4,
-
-    // top
-    3, 2, 6,
-    6, 7, 3,
-
-    // bottom
-    4, 5, 1,
-    1, 0, 4
-};
-
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
+vec3 cubePositions[] = {
+        (vec3){ 0.0f,  0.0f,  0.0f},
+        (vec3){ 2.0f,  5.0f, -15.0f},
+        (vec3){-1.5f, -2.2f, -2.5f},
+        (vec3){-3.8f, -2.0f, -12.3f},
+        (vec3){ 2.4f, -0.4f, -3.5f},
+        (vec3){-1.7f,  3.0f, -7.5f},
+        (vec3){ 1.3f, -2.0f, -2.5f},
+        (vec3){ 1.5f,  2.0f, -2.5f},
+        (vec3){ 1.5f,  0.2f, -1.5f},
+        (vec3){-1.3f,  1.0f, -1.5f}
+    };
 GLuint vbo = 0;
 GLuint vao = 0;
 GLuint ebo = 0;
@@ -69,7 +82,7 @@ int render_init(){
 
     glGenVertexArrays( 1, &vao );
     glGenBuffers( 1, &vbo );
-    glGenBuffers(1, &ebo);
+    //glGenBuffers(1, &ebo);
 
     //bind vertex array and put into buffers
     glBindVertexArray( vao );
@@ -78,21 +91,23 @@ int render_init(){
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
     glBufferData( GL_ARRAY_BUFFER, sizeof( vertices ), vertices, GL_STATIC_DRAW );
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+
 
     glEnableVertexAttribArray( 0 );
 
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0 );
+    //pos attrib
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0 );
 
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
     // texture coord attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    // color attribute
+    /* glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2); */
 
-    shader = shader_from_files("resources/shaders/coreshader.vert", "resources/shaders/coreshader.frag");
+    shader = shader_from_files("res/shaders/coreshader.vert", "res/shaders/coreshader.frag");
     if (shader.id == 0) {
         fprintf(stderr, "err: failed to create shader program\n");
         return -1;
@@ -122,7 +137,7 @@ int render_init(){
     // image loading
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);  
-    unsigned char *data = stbi_load("resources/textures/empty_tex.png",
+    unsigned char *data = stbi_load("res/textures/empty_tex.png",
                                 &width, &height, &nrChannels, 0);
 
     if (data)
@@ -150,9 +165,6 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* windo
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(shader_program);
-
-    //WTF THIS CODE MAKE A +1k FPS WTF BROOOOOOOO
-    //WTF THIS CODE MAKE A +1k FPS WTF BROOOOOOOO
 
     //texture activation to object
     glActiveTexture(GL_TEXTURE0);
@@ -196,7 +208,19 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* windo
     //draw quad
     glBindVertexArray(vao);
 
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    for (unsigned int i = 0; i < 10; i++)
+        {
+            mat4 model_i;
+            glm_mat4_identity(model_i);
+            glm_translate(model_i, cubePositions[i]);
+
+            float angle_i = glfwGetTime() + glm_rad(20.0f * i);
+            glm_rotate(model_i, angle_i, (vec3){1.0f, 0.3f, 0.5f});
+
+            glUniformMatrix4fv(m, 1, GL_FALSE, (float*)model_i);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
 
     return 0;
 }

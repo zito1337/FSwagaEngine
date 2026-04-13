@@ -8,6 +8,8 @@
 #include "headers/windowparams.h"
 #include "headers/window.h"
 #include "headers/render.h"
+#include "headers/usrinput.h"
+
 double lastTime;
 int nbFrames = 0;
 
@@ -20,6 +22,7 @@ int init(GLFWwindow* window)
 
     while(!glfwWindowShouldClose(window)){
         process_input(window);
+        
         render_tick(vao, vbo, shader_program, window);
         
         static double fpsTimer = 0.0;
@@ -51,16 +54,6 @@ int init(GLFWwindow* window)
     glfwTerminate();
 
     return 0;
-}
-
-void process_input(GLFWwindow *window)
-{
-    static int e_prev = GLFW_RELEASE;
-    int e_state = glfwGetKey(window, GLFW_KEY_E);
-
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-    e_prev = e_state;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

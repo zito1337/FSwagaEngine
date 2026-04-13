@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 
 //fw src
-#include "headers/shader.h"
+#include "../headers/shader.h"
 
 static char* read_file(const char* path)
 {
