@@ -31,7 +31,7 @@ int init(GLFWwindow* window)
         fpsTimer += currentTime - lastTime;
         lastTime = currentTime;
 
-        if (fpsTimer >= 1) {
+        if (fpsTimer >= 0.1f) {
             double fps = frames / fpsTimer;
 
             char title[128];

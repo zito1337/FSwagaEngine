@@ -122,7 +122,7 @@ int render_init(){
     // image loading
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);  
-    unsigned char *data = stbi_load("resources/textures/Flag_of_Russia.png",
+    unsigned char *data = stbi_load("resources/textures/empty_tex.png",
                                 &width, &height, &nrChannels, 0);
 
     if (data)
@@ -168,7 +168,7 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* windo
     float angle = glfwGetTime();
     glm_mat4_identity(model);
 
-    glm_rotate(model, angle, (vec3){0.0f, 1.0f, 0.0f});
+    glm_rotate(model, angle, (vec3){1.0f, 1.0f, 0.0f});
     glm_mat4_identity(view);
     glm_mat4_identity(projection);
 
