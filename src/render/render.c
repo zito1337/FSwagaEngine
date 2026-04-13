@@ -148,16 +148,11 @@ int render_init(){
 int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* window){
     glClearColor(0.329f, 0.745f, 0.941f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    float timeValue = glfwGetTime();
-    float greenValue = sinf(timeValue) / 2.0f + 0.5f;
 
     glUseProgram(shader_program);
 
-    //WTF THIS CODE MAKE A +7k FPS WTF BROOOOOOOO
-    int vertexColorLocation = glGetUniformLocation(shader_program, "ourColor");
-    glUniform4f(vertexColorLocation, 0.0f, greenValue, greenValue, 1.0f);
-    //WTF THIS CODE MAKE A +7k FPS WTF BROOOOOOOO
+    //WTF THIS CODE MAKE A +1k FPS WTF BROOOOOOOO
+    //WTF THIS CODE MAKE A +1k FPS WTF BROOOOOOOO
 
     //texture activation to object
     glActiveTexture(GL_TEXTURE0);
@@ -184,7 +179,7 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* windo
     glfwGetFramebufferSize(window, &width, &height);
     float aspect = (float)width / (float)height;
 
-    glm_perspective(glm_rad(60.0f),
+    glm_perspective(glm_rad(90.0f),
                  aspect,
                  0.1f,
                  100.0f,
