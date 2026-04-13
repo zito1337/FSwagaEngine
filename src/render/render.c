@@ -15,17 +15,46 @@
 #include "../headers/shader.h"
 
 float vertices[] = {
-        // positions          // colors           // texture coords
-         0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f  // top left 
-    };
+    // positions           // colors          // texcoords
 
-unsigned int indices[] = {  
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+    // FRONT
+    -0.5f, -0.5f,  0.5f,   1.0f,1.0f,1.0f,   0.0f,0.0f,
+     0.5f, -0.5f,  0.5f,   1.0f,1.0f,1.0f,   1.0f,0.0f,
+     0.5f,  0.5f,  0.5f,   1.0f,1.0f,1.0f,   1.0f,1.0f,
+    -0.5f,  0.5f,  0.5f,   1.0f,1.0f,1.0f,   0.0f,1.0f,
+
+    // BACK
+    -0.5f, -0.5f, -0.5f,   1.0f,1.0f,1.0f,   1.0f,0.0f,
+     0.5f, -0.5f, -0.5f,   1.0f,1.0f,1.0f,   0.0f,0.0f,
+     0.5f,  0.5f, -0.5f,   1.0f,1.0f,1.0f,   0.0f,1.0f,
+    -0.5f,  0.5f, -0.5f,   1.0f,1.0f,1.0f,   1.0f,1.0f,
+};
+
+unsigned int indices[] = {
+    // front
+    0, 1, 2,
+    2, 3, 0,
+
+    // right
+    1, 5, 6,
+    6, 2, 1,
+
+    // back
+    5, 4, 7,
+    7, 6, 5,
+
+    // left
+    4, 0, 3,
+    3, 7, 4,
+
+    // top
+    3, 2, 6,
+    6, 7, 3,
+
+    // bottom
+    4, 5, 1,
+    1, 0, 4
+};
 
 GLuint vbo = 0;
 GLuint vao = 0;
@@ -81,14 +110,19 @@ int render_init(){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    // filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    // filtering:
+    //old
+    // flamka: i turned it off because it's look's ugly and idk why
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+    //new
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     // image loading
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);  
-    unsigned char *data = stbi_load("resources/textures/empty_tex.png",
+    unsigned char *data = stbi_load("resources/textures/Flag_of_Russia.png",
                                 &width, &height, &nrChannels, 0);
 
     if (data)
@@ -99,7 +133,7 @@ int render_init(){
                  width, height, 0,
                  format, GL_UNSIGNED_BYTE, data);
 
-        glGenerateMipmap(GL_TEXTURE_2D);
+        //glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
     {
@@ -129,16 +163,22 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* windo
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    //perspective
+    //perspective relative by object
     mat4 model;
+    //perspective relative by camera
     mat4 view;
+    //perspective relative by projection
     mat4 projection;
 
+    float angle = glfwGetTime();
     glm_mat4_identity(model);
+
+    glm_rotate(model, angle, (vec3){0.0f, 1.0f, 0.0f});
     glm_mat4_identity(view);
     glm_mat4_identity(projection);
 
-    glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
+    //camera transform set to 1.0f by z (move camera to back by 1.0f)
+    glm_translate(view, (vec3){0.0f, 0.0f, -2.0f});
 
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
@@ -161,7 +201,7 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* windo
     //draw quad
     glBindVertexArray(vao);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
     return 0;
 }

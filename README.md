@@ -7,6 +7,6 @@ engine functions format: snake_case
 engine variables format: snake_case
 
 TODO:
-1. remove isShader2 that was just a funny little piece of shit
-2. render cube
-3. make a perspective camera
+1.make more classes (RAII)
+2.make basic ui creation
+3.font rendering(maybe we can use stb_freetype)
