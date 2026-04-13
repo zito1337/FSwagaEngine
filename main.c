@@ -6,26 +6,27 @@
 
 //fw src
 #include "src/headers/windowparams.h"
+#include "src/headers/window.h"
 #include "src/headers/render.h"
 
-int WWIDTH = 800;
-int WHEIGHT = 800;
+int window_width = 600;
+int window_height = 600;
 
 int main()
 {
     //glfw init
     glfwInit();
     
-    //now we're setting glfw 3.3
+    //now we're setting glfw 4.6
     //set major glfw version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     //set minor glfw version
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     //set glfw profile to core
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
     //creating window
-    GLFWwindow* window = glfwCreateWindow(WWIDTH, WHEIGHT, "window", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(window_width, window_height, "FSwagaEngine", NULL, NULL);
     if (window == NULL)
     {
         printf("Failed to create GLFW window");
@@ -41,7 +42,7 @@ int main()
     }
     
     //start opengl render pipeline
-    render(window);
+    init(window);
     
     return 0;
 }

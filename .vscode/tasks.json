@@ -8,7 +8,10 @@
       "args": [
         "main.c",
         "glad.c",
-        "src/render.c",
+        "src/window.c",
+        "src/render/render.c",
+        "src/render/shader.c",
+        "src/usr/usrinput.c",
         "-o",
         "main.exe",
         "-I",
