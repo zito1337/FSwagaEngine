@@ -1,5 +1,5 @@
 # FSwagaEngine
-## current version: dev 0.1.2.1204
+## current version: dev 0.1.2.1304
 a 3d voxel open source engine, made with opengl 4.6 (glfw, glad)
 
 ## formats:
