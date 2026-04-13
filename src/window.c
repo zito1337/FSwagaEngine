@@ -20,7 +20,7 @@ int init(GLFWwindow* window)
 
     while(!glfwWindowShouldClose(window)){
         process_input(window);
-        render_tick(vao, vbo, shader_program);
+        render_tick(vao, vbo, shader_program, window);
         
         static double fpsTimer = 0.0;
         static int frames = 0;
@@ -71,7 +71,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 
     // force a redraw so the window updates during resize
-    render_tick(vao, vbo, shader_program);
+    render_tick(vao, vbo, shader_program, window);
     
     glfwSwapBuffers(window);
 }

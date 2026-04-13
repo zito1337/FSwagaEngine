@@ -4,6 +4,7 @@
 #include <glad/glad.h> //INCLUDE BEFORE GLFW3
 #include <GLFW/glfw3.h>
 #include <math.h>
+#include <cglm/cglm.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -34,6 +35,9 @@ GLuint shader_program;
 unsigned int texture;
 
 int render_init(){
+
+    glEnable(GL_DEPTH_TEST);
+
     glGenVertexArrays( 1, &vao );
     glGenBuffers( 1, &vbo );
     glGenBuffers(1, &ebo);
@@ -68,7 +72,7 @@ int render_init(){
     shader_program = shader.id;
 
     glUseProgram(shader_program);
-    glUniform1i(glGetUniformLocation(shader_program, "texture1"), 0);
+    glUniform1i(glGetUniformLocation(shader_program, "ourTexture"), 0);
 
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -107,7 +111,7 @@ int render_init(){
     return 0;
 }
 
-int render_tick(GLuint vao, GLuint vbo, GLuint shader_program){
+int render_tick(GLuint vao, GLuint vbo, GLuint shader_program, GLFWwindow* window){
     glClearColor(0.329f, 0.745f, 0.941f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -115,17 +119,48 @@ int render_tick(GLuint vao, GLuint vbo, GLuint shader_program){
     float greenValue = sinf(timeValue) / 2.0f + 0.5f;
 
     glUseProgram(shader_program);
-    
+
     //WTF THIS CODE MAKE A +7k FPS WTF BROOOOOOOO
     int vertexColorLocation = glGetUniformLocation(shader_program, "ourColor");
     glUniform4f(vertexColorLocation, 0.0f, greenValue, greenValue, 1.0f);
     //WTF THIS CODE MAKE A +7k FPS WTF BROOOOOOOO
 
+    //texture activation to object
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
-    
+
+    //perspective
+    mat4 model;
+    mat4 view;
+    mat4 projection;
+
+    glm_mat4_identity(model);
+    glm_mat4_identity(view);
+    glm_mat4_identity(projection);
+
+    glm_translate(view, (vec3){0.0f, 0.0f, -3.0f});
+
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    float aspect = (float)width / (float)height;
+
+    glm_perspective(glm_rad(60.0f),
+                 aspect,
+                 0.1f,
+                 100.0f,
+                 projection);
+
+    int m = glGetUniformLocation(shader_program, "model");
+    int v = glGetUniformLocation(shader_program, "view");
+    int p = glGetUniformLocation(shader_program, "projection");
+
+    glUniformMatrix4fv(m, 1, GL_FALSE, (float*)model);
+    glUniformMatrix4fv(v, 1, GL_FALSE, (float*)view);
+    glUniformMatrix4fv(p, 1, GL_FALSE, (float*)projection);
+
+    //draw quad
     glBindVertexArray(vao);
 
-    //draw elements with indices (finally not vertices!!!!)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     return 0;
