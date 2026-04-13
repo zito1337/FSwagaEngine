@@ -8,17 +8,40 @@
 #include "headers/windowparams.h"
 #include "headers/window.h"
 #include "headers/render.h"
+double lastTime;
+int nbFrames = 0;
 
 int init(GLFWwindow* window)
 {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
+    
     render_init();
+    glfwSwapInterval(0);
 
     while(!glfwWindowShouldClose(window)){
         process_input(window);
-        
         render_tick(vao, vbo, shader_program);
+        
+        static double fpsTimer = 0.0;
+        static int frames = 0;
+
+        double currentTime = glfwGetTime();
+        frames++;
+
+        fpsTimer += currentTime - lastTime;
+        lastTime = currentTime;
+
+        if (fpsTimer >= 1) {
+            double fps = frames / fpsTimer;
+
+            char title[128];
+            snprintf(title, sizeof(title), "FSwagaEngine | FPS: %.0f |", fps);
+
+            glfwSetWindowTitle(window, title);
+
+            frames = 0;
+            fpsTimer = 0.0;
+    }
 
         glfwSwapBuffers(window);
         glfwPollEvents();    

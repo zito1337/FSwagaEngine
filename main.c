@@ -9,7 +9,7 @@
 #include "src/headers/window.h"
 #include "src/headers/render.h"
 
-int window_width = 800;
+int window_width = 600;
 int window_height = 600;
 
 int main()
